@@ -30,22 +30,17 @@ library(ggplot2)
 
 ```{r echo=FALSE, Load_the_Data}
 # Load the Data
-whit_w <- read.csv("DataSet - wineQualityWhites.csv", sep = ",")
+whit_w <- read.csv("wineQualityWhites.csv", sep = ",")
 ```
 
 > **Tip**: Before you create any plots, it is a good idea to provide a short
 introduction into the dataset that you are planning to explore. Replace this
 quoted text with that general information!
 
-   The dataset is related to **"White Wine"** of the Portuguese "Vinho Verde" 
-wine. For more details, consult: http://www.vinhoverde.pt/en/ or the reference 
-[Cortez et al., 2009].  Due to privacy and logistic issues, only physicochemical (inputs) and sensory (the output) variables are available (e.g. there is no data
-about grape types, wine brand, wine selling price, etc.). Also, we are not sure
-if all input variables are relevant. So it could be interesting to test feature selection methods. 
+   The dataset is related to **"White Wine"** of the Portuguese "Vinho Verde" wine. For more details, consult: http://www.vinhoverde.pt/en/ or the reference [Cortez et al., 2009].  Due to privacy and logistic issues, only physicochemical (inputs) and sensory (the output) variables are available (e.g. there is no data about grape types, wine brand, wine selling price, etc.). Also, we are not sure if all input variables are relevant. So it could be interesting to test feature selection methods. 
 
 - Number of Instances (obs.): 4898. 
-- Number of Attributes (variables): 11 + output attribute + serial No 
-  (x variable)
+- Number of Attributes (variables): 11 + output attribute + serial No (x variable)
 
 # Univariate Data Exploring and Plots Section
 
