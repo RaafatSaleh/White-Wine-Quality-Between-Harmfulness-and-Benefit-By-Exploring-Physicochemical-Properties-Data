@@ -1,3 +1,23 @@
+ggplot(aes(x = fixed.acidity), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = volatile.acidity), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = critic.acid), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = citric.acid), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = chlorides), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = free.sulfur.dioxcide), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = free.sulfure.dioxcide), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = free.sulfur.dioxide), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = total.sulfur.dioxide), data = whit_w) +
+geom_histogram()
+ggplot(aes(x = density), data = whit_w) +
+geom_histogram()
 
 White wine quality by exploring physicochemical properties data
 by Raafat Saleh
@@ -122,6 +142,42 @@ ggplot(aes(x = alcohol), data = whit_w) +
 ggplot(aes(x = alcohol), data = whit_w) +
   geom_histogram(binwidth = .05) +
   scale_x_continuous()
+```
+
+```{r echo=FALSE, fixed.acidity}
+ggplot(aes(x = fixed.acidity), data = whit_w) +
+geom_histogram()
+```
+
+```{r echo=FALSE, volatile.acidity}
+ggplot(aes(x = volatile.acidity), data = whit_w) +
+geom_histogram()
+```
+
+
+```{r echo=FALSE, citric.acid}
+ggplot(aes(x = citric.acid), data = whit_w) +
+geom_histogram()
+```
+
+```{r echo=FALSE, chlorides}
+ggplot(aes(x = chlorides), data = whit_w) +
+geom_histogram()
+```
+
+```{r echo=FALSE, free.sulfur.dioxide}
+ggplot(aes(x = free.sulfur.dioxide), data = whit_w) +
+geom_histogram()
+```
+
+```{r echo=FALSE, total.sulfur.dioxide}
+ggplot(aes(x = total.sulfur.dioxide), data = whit_w) +
+geom_histogram()
+```
+
+```{r echo=FALSE, density}
+ggplot(aes(x = density), data = whit_w) +
+geom_histogram()
 ```
 
 # Univariate Analysis
