@@ -1,23 +1,3 @@
-ggplot(aes(x = fixed.acidity), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = volatile.acidity), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = critic.acid), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = citric.acid), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = chlorides), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = free.sulfur.dioxcide), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = free.sulfure.dioxcide), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = free.sulfur.dioxide), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = total.sulfur.dioxide), data = whit_w) +
-geom_histogram()
-ggplot(aes(x = density), data = whit_w) +
-geom_histogram()
 
 White wine quality by exploring physicochemical properties data
 by Raafat Saleh
@@ -100,6 +80,10 @@ ggplot(aes(x = quality), data = whit_w) +
 ggplot(aes(x = residual.sugar), data = whit_w) +
   geom_histogram() +
   scale_x_continuous()
+
+```
+```{r echo=FALSE, residual.sugar summary}
+summary(whit_w$residual.sugar)
 ```
 
 ```{r echo=FALSE, residual.sugar2}
@@ -114,6 +98,10 @@ ggplot(aes(x = pH), data = whit_w) +
   scale_x_continuous()
 ```
 
+```{r echo=FALSE, pH summary}
+summary(whit_w$pH)
+```
+
 ```{r echo=FALSE, pH_2}
 ggplot(aes(x = pH), data = whit_w) +
   geom_histogram(binwidth = .01) +
@@ -124,6 +112,10 @@ ggplot(aes(x = pH), data = whit_w) +
 ggplot(aes(x = sulphates), data = whit_w) +
   geom_histogram() +
   scale_x_continuous()
+```
+
+```{r echo=FALSE, sulphates summary}
+summary(whit_w$sulphates)
 ```
 
 ```{r echo=FALSE, sulphates_2}
@@ -138,6 +130,11 @@ ggplot(aes(x = alcohol), data = whit_w) +
   scale_x_continuous()
 ```
 
+```{r echo=FALSE, summary}
+summary(whit_w$alcohol)
+```
+
+
 ```{r echo=FALSE, alcohol_2}
 ggplot(aes(x = alcohol), data = whit_w) +
   geom_histogram(binwidth = .05) +
@@ -149,15 +146,26 @@ ggplot(aes(x = fixed.acidity), data = whit_w) +
 geom_histogram()
 ```
 
+```{r echo=FALSE, summary}
+summary(whit_w$fixed.acidity)
+```
+
 ```{r echo=FALSE, volatile.acidity}
 ggplot(aes(x = volatile.acidity), data = whit_w) +
 geom_histogram()
 ```
 
+```{r echo=FALSE, volatile.acidity summary}
+summary(whit_w$volatile.acidity)
+```
 
 ```{r echo=FALSE, citric.acid}
 ggplot(aes(x = citric.acid), data = whit_w) +
 geom_histogram()
+```
+
+```{r echo=FALSE, citric.acid summary}
+summary(whit_w$citric.acid)
 ```
 
 ```{r echo=FALSE, chlorides}
@@ -165,9 +173,17 @@ ggplot(aes(x = chlorides), data = whit_w) +
 geom_histogram()
 ```
 
+```{r echo=FALSE, chlorides summary}
+summary(whit_w$chlorides)
+```
+
 ```{r echo=FALSE, free.sulfur.dioxide}
 ggplot(aes(x = free.sulfur.dioxide), data = whit_w) +
 geom_histogram()
+```
+
+```{r echo=FALSE, free.sulfur.dioxide summary}
+summary(whit_w$free.sulfur.dioxide)
 ```
 
 ```{r echo=FALSE, total.sulfur.dioxide}
@@ -175,9 +191,17 @@ ggplot(aes(x = total.sulfur.dioxide), data = whit_w) +
 geom_histogram()
 ```
 
+```{r echo=FALSE, total.sulfur.dioxide summary}
+summary(whit_w$total.sulfur.dioxide)
+```
+
 ```{r echo=FALSE, density}
 ggplot(aes(x = density), data = whit_w) +
 geom_histogram()
+```
+
+```{r echo=FALSE, density summary}
+summary(whit_w$density)
 ```
 
 # Univariate Analysis
@@ -187,7 +211,7 @@ reflect on and summarize what you've found. Use the questions below to help you
 gather your observations and add your own if you have other thoughts!
 
 ### What is the structure of your dataset?
-
+4898 observations,  13 variables
 ### What is/are the main feature(s) of interest in your dataset?
 
 ### What other features in the dataset do you think will help support your \
@@ -210,6 +234,87 @@ as well.
 
 ```{r echo=FALSE, Bivariate_Plots}
 
+```
+
+```{r echo=FALSE, alcohol & residual.sugar}
+ggplot(aes(x = alcohol, y = residual.sugar), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohol & residual.sugar}
+cor.test(whit_w$alcohol, whit_w$residual.sugar)
+```
+
+```{r echo=FALSE, alcohole & sulphates}
+ggplot(aes(x = alcohol, y = sulphates), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohole & sulphates}
+cor.test(whit_w$alcohol, whit_w$sulphates)
+```
+
+```{r echo=FALSE, alcohole & pH}
+ggplot(aes(x = alcohol, y = pH), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohole & pH}
+cor.test(whit_w$alcohol, whit_w$pH)
+```
+
+```{r echo=FALSE, alcohole & density}
+ggplot(aes(x = alcohol, y = density), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohole & density}
+cor.test(whit_w$alcohol, whit_w$density)
+```
+
+```{r echo=FALSE, alcohole & volatile.acidity}
+ggplot(aes(x = alcohol, y = volatile.acidity), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohole & volatile.acidity}
+cor.test(whit_w$alcohol, whit_w$volatile.acidity)
+```
+
+```{r echo=FALSE, alcohole & fixed.acidity}
+ggplot(aes(x = alcohol, y = fixed.acidity), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohole & fixed.acidity}
+cor.test(whit_w$alcohol, whit_w$fixed.acidity)
+```
+
+```{r echo=FALSE, alcohole & citric.acid}
+ggplot(aes(x = alcohol, y = citric.acid), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohole & citric.acid}
+cor.test(whit_w$alcohol, whit_w$citric.acid)
+```
+
+```{r echo=FALSE, alcohole & total.sulfur.dioxide}
+ggplot(aes(x = alcohol, y = total.sulfur.dioxide), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohole & total.sulfur.dioxide}
+cor.test(whit_w$alcohol, whit_w$total.sulfur.dioxide)
+```
+
+```{r echo=FALSE, alcohole & chlorides}
+ggplot(aes(x = alcohol, y = chlorides), data = whit_w) +
+    geom_point()
+```
+
+```{r echo=FALSE, corr. alcohole & chlorides}
+cor.test(whit_w$alcohol, whit_w$chlorides)
 ```
 
 # Bivariate Analysis
