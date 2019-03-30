@@ -1,50 +1,29 @@
----
-output:
-  word_document: default
-  html_document: default
----
+
 White wine quality by exploring physicochemical properties data
 by Raafat Saleh
-========================================================
-
-> **Tip**: You will see quoted sections like this throughout the template to
-help you construct your report. Make sure that you remove these notes before
-you finish and submit your project!
-
-> **Tip**: One of the requirements of this project is that your code follows
-good formatting techniques, including limiting your lines to 80 characters or
-less. If you're using RStudio, go into Preferences \> Code \> Display to set up
-a margin line to help you keep track of this guideline!
+===============
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
-# Load all of the packages that you end up using in your analysis in this code
-# chunk.
-
-# Notice that the parameter "echo" was set to FALSE for this code chunk. This
-# prevents the code from displaying in the knitted HTML output. You should set
-# echo=FALSE for all code chunks in your file, unless it makes sense for your
-# report to show the code that generated a particular plot.
-
-# The other parameters for "message" and "warning" should also be set to FALSE
-# for other code chunks once you have verified that each plot comes out as you
-# want it to. This will clean up the flow of your report.
-
+# Loading all packages that I'll use in my analysis in this code chunk.
 library(ggplot2)
+library(ggthemes)
+library(dplyr)
+
 ```
 
 ```{r echo=FALSE, Load_the_Data}
 # Load the Data
-whit_w <- read.csv("wineQualityWhites.csv", sep = ",")
+white_wine <- read.csv("wineQualityWhites.csv", sep = ",")
 ```
 
-> **Tip**: Before you create any plots, it is a good idea to provide a short
-introduction into the dataset that you are planning to explore. Replace this
-quoted text with that general information!
+# Introduction
 
-   The dataset is related to **"White Wine"** of the Portuguese "Vinho Verde" wine. For more details, consult: http://www.vinhoverde.pt/en/ or the reference [Cortez et al., 2009].  Due to privacy and logistic issues, only physicochemical (inputs) and sensory (the output) variables are available (e.g. there is no data about grape types, wine brand, wine selling price, etc.). Also, we are not sure if all input variables are relevant. So it could be interesting to test feature selection methods. 
+   The dataset is related to **"White Wine"** of the Portuguese "Vinho Verde" 
+wine. For more details, consult: http://www.vinhoverde.pt/en/ or the reference [Cortez et al., 2009]. Due to privacy and logistic issues, only physicochemical (inputs) and sensory (the output) variables are available (e.g. there is no data about grape types, wine brand, wine selling price, etc.). Also, we are not sure
+if all input variables are relevant. So it could be interesting to test feature selection methods. 
 
 - Number of Instances (obs.): 4898. 
-- Number of Attributes (variables): 11 + output attribute + serial No (x variable)
+- Number of Attributes (variables): 11 + output attribute + serial No (x var.)
 
 # Univariate Data Exploring and Plots Section
 
@@ -56,15 +35,38 @@ There should be multiple code chunks and text sections; the first one below is
 just to help you get started.
 
 ```{r echo=FALSE, dimensions}
-dim(whit_w)
+dim(white_wine)
 ```
+
+Our dataset consists of 12 variables, with 4898 observations.
 
 ```{r echo=FALSE, string}
-str(whit_w)
+str(white_wine)
 ```
 
+I notice 11 variables are numerics, on quantifying the chemical properties of 
+the wine, except quality variable is integer. At least 3 wine experts rated the quality of each wine, providing a rating between 0 (very bad) and 10 (very excellent). # I'll convert quality as a factor variable to help me for 
+exploration. Befor that, I'll remove the the x variable because it isn't needed 
+in my analysis.
+
+```{r echo=True, delete x column, convert quality from integer to factor}
+# To delete column "x"
+white_wine <- white_wine[,-1]
+
+# To convert quality column from integer to factor
+#white_wine[,'quality'] <- factor(white_wine[,'quality'])
+
+str(white_wine)
+```
+
+Ref: 
+https://stackoverflow.com/questions/34617883/how-to-remove-multiple-columns-in-
+r-dataframe
+https://stackoverflow.com/questions/31165015/how-to-convert-integer-to-
+factor-in-r
+
 ```{r echo=FALSE, data_summary}
-summary(whit_w)
+summary(white_wine)
 ```
 
 > **Tip**: Make sure that you leave a blank line between the start / end of
@@ -73,143 +75,179 @@ formatted nicely in the knitted text. Note as well that text on consecutive
 lines is treated as a single space. Make sure you have a blank line between
 your paragraphs so that they too are formatted for easy readability.
 
-
 ```{r echo=FALSE, quality}
-ggplot(aes(x = quality), data = whit_w) +
-  geom_histogram(binwidth = 1) 
+ggplot(aes(x = quality), data = white_wine) +
+    geom_histogram() 
 ```
 
 ```{r echo=FALSE, quality_summary}
-
-summary(whit_w$quality)
+summary(white_wine$quality)
 ```
 
-
-```{r echo=FALSE, residual.sugar}
-ggplot(aes(x = residual.sugar), data = whit_w) +
-  geom_histogram()
-```
-
-```{r echo=FALSE, residual.sugar_summary}
-summary(whit_w$residual.sugar)
-```
-
-```{r echo=FALSE, residual.sugar2}
-ggplot(aes(x = residual.sugar), data = whit_w) +
-  geom_histogram(binwidth = 0.5) +
-  scale_x_continuous()
-```
-
-```{r echo=FALSE, pH}
-ggplot(aes(x = pH), data = whit_w) +
-  geom_histogram() +
-  scale_x_continuous()
-```
-
-```{r echo=FALSE, pH_summary}
-summary(whit_w$pH)
-```
-
-```{r echo=FALSE, pH_2}
-ggplot(aes(x = pH), data = whit_w) +
-  geom_histogram(binwidth = .01) +
-  scale_x_continuous()
-```
-
-```{r echo=FALSE, sulphates}
-ggplot(aes(x = sulphates), data = whit_w) +
-  geom_histogram() +
-  scale_x_continuous()
-```
-
-```{r echo=FALSE, sulphates_summary}
-summary(whit_w$sulphates)
-```
-
-```{r echo=FALSE, sulphates_2}
-ggplot(aes(x = sulphates), data = whit_w) +
-  geom_histogram(binwidth = .01) +
-  scale_x_continuous()
-```
-
-```{r echo=FALSE, alcohol}
-ggplot(aes(x = alcohol), data = whit_w) +
-  geom_histogram() +
-  scale_x_continuous()
-```
-
-```{r echo=FALSE, alcohol_summary}
-summary(whit_w$alcohol)
-```
-
-
-```{r echo=FALSE, alcohol_2}
-ggplot(aes(x = alcohol), data = whit_w) +
-  geom_histogram(binwidth = .05) +
-  scale_x_continuous()
-```
+Quality score (between 0 and 10) values range between 3 as minimum and 9 as maximum level, with 5.88 is mean and 6 is median (approximatly appears unimodal normal distribution with center in 6). 75% of quality score below 6. 
 
 ```{r echo=FALSE, fixed.acidity}
-ggplot(aes(x = fixed.acidity), data = whit_w) +
-geom_histogram()
+ggplot(aes(x = fixed.acidity), data = white_wine) +
+    geom_histogram(binwidth = 0.1) +
+    geom_vline(xintercept=mean(white_wine$fixed.acidity), color="red") +
+    geom_vline(xintercept=median(white_wine$fixed.acidity), color="blue")
 ```
 
+Ref: https://stackoverflow.com/questions/6557977/how-do-i-add-the-mean-value-to-
+a-histogram-in-r
+
 ```{r echo=FALSE, fixed.acidity_summary}
-summary(whit_w$fixed.acidity)
+summary(white_wine$fixed.acidity)
+```
+
+Fixed acidity (tartaric acid - g/dm^3) most acids involved with wine or fixed or nonvolatile (do not evaporate readily). The fixed acidity follows a normal distribution with mean 6.855 (the median 6.800 g/dm^3) and some outliers over 14 and under 4 (3.800). The 75% of the data is below 7.3 g/dm^3.
+
+To make the plot more readable and remove some outliers in the right side of the plot, 99 percentile is used to limit the upper bound of the xlimit. The histogram now look more a normal distribution.
+
+```{r echo=FALSE, customized fixed.acidity}
+ggplot(aes(x = fixed.acidity), data = white_wine) +
+    geom_histogram(binwidth = 0.1) +
+    scale_x_continuous(limits = c(4, quantile(white_wine$fixed.acidity, 0.99))) +
+    geom_vline(xintercept=mean(white_wine$fixed.acidity), color="red") +
+    geom_vline(xintercept=median(white_wine$fixed.acidity), color="blue")
 ```
 
 ```{r echo=FALSE, volatile.acidity}
-ggplot(aes(x = volatile.acidity), data = whit_w) +
-geom_histogram()
+ggplot(aes(x = volatile.acidity), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$volatile.acidity), color="red") +
+    geom_vline(xintercept=median(white_wine$volatile.acidity), color="blue")
 ```
 
 ```{r echo=FALSE, volatile.acidity_summary}
-summary(whit_w$volatile.acidity)
+summary(white_wine$volatile.acidity)
 ```
 
+```{r echo=FALSE, volatile.acidity}
+ggplot(aes(x = volatile.acidity), data = white_wine) +
+    geom_histogram(binwidth = 0.01) +
+    scale_x_continuous(limits = c(0.08, quantile(
+                       white_wine$volatile.acidity, 0.95))) +
+    geom_vline(xintercept=mean(white_wine$volatile.acidity), color="red") +
+    geom_vline(xintercept=median(white_wine$volatile.acidity), color="blue")
+```
+Volatile acidity (acetic acid - g/dm^3) the amount of acetic acid in wine, which at too high of levels can lead to an unpleasant, vinegar taste. The customized volatile acidity distribution appears normal with the peaking around 0.28 g/dm^3
+
 ```{r echo=FALSE, citric.acid}
-ggplot(aes(x = citric.acid), data = whit_w) +
-geom_histogram()
+ggplot(aes(x = citric.acid), data = white_wine) +
+    geom_histogram(binwidth = .02) +
+    geom_vline(xintercept=mean(white_wine$citric.acid), color="red") +
+    geom_vline(xintercept=median(white_wine$citric.acid), color="blue")
 ```
 
 ```{r echo=FALSE, citric.acid_summary}
-summary(whit_w$citric.acid)
+summary(white_wine$citric.acid)
+```
+
+```{r echo=FALSE, citric.acid}
+ggplot(aes(x = citric.acid), data = white_wine) +
+    geom_histogram(binwidth = .02) +
+    scale_x_continuous(limits = c(0, quantile(white_wine$volatile.acidity, 
+                                              0.99))) +
+    geom_vline(xintercept=mean(white_wine$citric.acid), color="red") +
+    geom_vline(xintercept=median(white_wine$citric.acid), color="blue")
+```
+
+```{r echo=FALSE, residual.sugar}
+ggplot(aes(x = residual.sugar), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$residual.sugar), color="red") +
+    geom_vline(xintercept=median(white_wine$residual.sugar), color="blue")
+```
+
+
+
+```{r echo=FALSE, residual.sugar_summary}
+summary(white_wine$residual.sugar)
+```
+
+```{r echo=FALSE, residual.sugar2}
+ggplot(aes(x = residual.sugar), data = white_wine) +
+    geom_histogram(binwidth = 0.5) +
+    geom_vline(xintercept=mean(white_wine$residual.sugar), color="red") +
+    geom_vline(xintercept=median(white_wine$residual.sugar), color="blue")
 ```
 
 ```{r echo=FALSE, chlorides}
-ggplot(aes(x = chlorides), data = whit_w) +
-geom_histogram()
+ggplot(aes(x = chlorides), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$chlorides), color="red") +
+    geom_vline(xintercept=median(white_wine$chlorides), color="blue")
 ```
 
 ```{r echo=FALSE, chlorides_summary}
-summary(whit_w$chlorides)
+summary(white_wine$chlorides)
 ```
 
 ```{r echo=FALSE, free.sulfur.dioxide}
-ggplot(aes(x = free.sulfur.dioxide), data = whit_w) +
-geom_histogram()
+ggplot(aes(x = free.sulfur.dioxide), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$free.sulfur.dioxide), color="red") +
+    geom_vline(xintercept=median(white_wine$free.sulfur.dioxide), color="blue")
 ```
 
 ```{r echo=FALSE, free.sulfur.dioxide_summary}
-summary(whit_w$free.sulfur.dioxide)
+summary(white_wine$free.sulfur.dioxide)
 ```
 
 ```{r echo=FALSE, total.sulfur.dioxide}
-ggplot(aes(x = total.sulfur.dioxide), data = whit_w) +
-geom_histogram()
+ggplot(aes(x = total.sulfur.dioxide), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$total.sulfur.dioxide), color="red") +
+    geom_vline(xintercept=median(white_wine$total.sulfur.dioxide), color="blue")
 ```
 
 ```{r echo=FALSE, total.sulfur.dioxide_summary}
-summary(whit_w$total.sulfur.dioxide)
+summary(white_wine$total.sulfur.dioxide)
 ```
 
 ```{r echo=FALSE, density}
-ggplot(aes(x = density), data = whit_w) +
-geom_histogram()
+ggplot(aes(x = density), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$density), color="red") +
+    geom_vline(xintercept=median(white_wine$density), color="blue")
 ```
 
 ```{r echo=FALSE, density_summary}
-summary(whit_w$density)
+summary(white_wine$density)
+```
+
+```{r echo=FALSE, pH}
+ggplot(aes(x = pH), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$pH), color="red") +
+    geom_vline(xintercept=median(white_wine$pH), color="blue")
+```
+
+```{r echo=FALSE, pH_summary}
+summary(white_wine$pH)
+```
+
+```{r echo=FALSE, sulphates}
+ggplot(aes(x = sulphates), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$sulphates), color="red") +
+    geom_vline(xintercept=median(white_wine$sulphates), color="blue")
+```
+
+```{r echo=FALSE, sulphates_summary}
+summary(white_wine$sulphates)
+```
+
+```{r echo=FALSE, alcohol}
+ggplot(aes(x = alcohol), data = white_wine) +
+    geom_histogram() +
+    geom_vline(xintercept=mean(white_wine$alcohol), color="red") +
+    geom_vline(xintercept=median(white_wine$alcohol), color="blue")
+```
+
+```{r echo=FALSE, alcohol_summary}
+summary(white_wine$alcohol)
 ```
 
 # Univariate Analysis
@@ -242,87 +280,89 @@ as well.
 
 ```{r echo=FALSE, Bivariate_Plots}
 
+pairs(white_wine[1:11])
+
 ```
 
 ```{r echo=FALSE, alcohol_residual.sugar}
-ggplot(aes(x = alcohol, y = residual.sugar), data = whit_w) +
+ggplot(aes(x = alcohol, y = residual.sugar), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohol_residual.sugar}
-cor.test(whit_w$alcohol, whit_w$residual.sugar)
+cor.test(white_wine$alcohol, white_wine$residual.sugar)
 ```
 
 ```{r echo=FALSE, alcohole_sulphates}
-ggplot(aes(x = alcohol, y = sulphates), data = whit_w) +
+ggplot(aes(x = alcohol, y = sulphates), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohole_sulphates}
-cor.test(whit_w$alcohol, whit_w$sulphates)
+cor.test(white_wine$alcohol, white_wine$sulphates)
 ```
 
 ```{r echo=FALSE, alcohole_pH}
-ggplot(aes(x = alcohol, y = pH), data = whit_w) +
+ggplot(aes(x = alcohol, y = pH), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohole_pH}
-cor.test(whit_w$alcohol, whit_w$pH)
+cor.test(white_wine$alcohol, white_wine$pH)
 ```
 
 ```{r echo=FALSE, alcohole_density}
-ggplot(aes(x = alcohol, y = density), data = whit_w) +
+ggplot(aes(x = alcohol, y = density), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohole_density}
-cor.test(whit_w$alcohol, whit_w$density)
+cor.test(white_wine$alcohol, white_wine$density)
 ```
 
 ```{r echo=FALSE, alcohole_volatile.acidity}
-ggplot(aes(x = alcohol, y = volatile.acidity), data = whit_w) +
+ggplot(aes(x = alcohol, y = volatile.acidity), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohole_volatile.acidity}
-cor.test(whit_w$alcohol, whit_w$volatile.acidity)
+cor.test(white_wine$alcohol, white_wine$volatile.acidity)
 ```
 
 ```{r echo=FALSE, alcohole_fixed.acidity}
-ggplot(aes(x = alcohol, y = fixed.acidity), data = whit_w) +
+ggplot(aes(x = alcohol, y = fixed.acidity), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohole_fixed.acidity}
-cor.test(whit_w$alcohol, whit_w$fixed.acidity)
+cor.test(white_wine$alcohol, white_wine$fixed.acidity)
 ```
 
 ```{r echo=FALSE, alcohole_citric.acid}
-ggplot(aes(x = alcohol, y = citric.acid), data = whit_w) +
+ggplot(aes(x = alcohol, y = citric.acid), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohole_citric.acid}
-cor.test(whit_w$alcohol, whit_w$citric.acid)
+cor.test(white_wine$alcohol, white_wine$citric.acid)
 ```
 
 ```{r echo=FALSE, alcohole_total.sulfur.dioxide}
-ggplot(aes(x = alcohol, y = total.sulfur.dioxide), data = whit_w) +
+ggplot(aes(x = alcohol, y = total.sulfur.dioxide), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohole_total.sulfur.dioxide}
-cor.test(whit_w$alcohol, whit_w$total.sulfur.dioxide)
+cor.test(white_wine$alcohol, white_wine$total.sulfur.dioxide)
 ```
 
 ```{r echo=FALSE, alcohole_chlorides}
-ggplot(aes(x = alcohol, y = chlorides), data = whit_w) +
+ggplot(aes(x = alcohol, y = quality), data = white_wine) +
     geom_point()
 ```
 
 ```{r echo=FALSE, corr_alcohole_chlorides}
-cor.test(whit_w$alcohol, whit_w$chlorides)
+cor.test(white_wine$alcohol, white_wine$chlorides)
 ```
 
 # Bivariate Analysis
